@@ -1,0 +1,28 @@
+import face_recognition
+import cv2
+import sys
+
+# Load the image file
+image_path = sys.argv[1] if len(sys.argv) > 1 else r'C:\Users\mcron\OneDrive\Desktop\test test test\pyFace\image\pic.jpg'
+image = face_recognition.load_image_file(image_path)
+
+# Find all faces in the image
+face_locations = face_recognition.face_locations(image)
+
+print(f"Found {len(face_locations)} face(s) in this photograph.")
+
+# Convert the image to BGR color format (which OpenCV uses)
+image_bgr = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+
+for face_location in face_locations:
+    # Print the location of each face in this image
+    top, right, bottom, left = face_location
+    print(f"A face is located at pixel location Top: {top}, Left: {left}, Bottom: {bottom}, Right: {right}")
+
+    # Draw a rectangle around the face
+    cv2.rectangle(image_bgr, (left, top), (right, bottom), (0, 255, 0), 3)
+
+# Display the image
+cv2.imshow('Face Detection', image_bgr)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
